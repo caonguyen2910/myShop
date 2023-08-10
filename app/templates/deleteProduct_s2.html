@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+
+{% block body %}
+    <h2> Chọn Sản phẩm</h2>
+    <form action="{{url_for('deleteProduct_s3')}}" method="post">
+      <table class='table'>
+        <tr>
+          <td>ID sản phẩm</td>
+          <td>Tên sản phẩm</td>
+          <td>Ảnh</td>
+          <td> Giá</td>
+          <td> Chọn</td>
+        </tr>
+      {% for product in products %}
+      <tr>
+          <td>{{product.product_id}}</td>
+          <td>{{product.product_name}}</td>
+          <td><img src='{{product.img}}' style="width:120px; height:120px"></td>
+          <td>{{product.price}}</td>
+          <td><input type='checkbox' name='checkbox' value='{{product.product_id}}'></td>
+      </tr>
+      {% endfor %}
+      <div class="form-group">
+        <input class="btn btn-primary" name="add" type="submit" value='Xóa'>
+      </div>
+{% endblock %}

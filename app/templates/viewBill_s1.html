@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+
+{% block body %}
+    <h1> Bill </h1>
+
+    <table  class="table">
+      <tr>
+        <td> Mã hóa đơn</td>
+        <td> Full Name</td>
+        <td> số lượng </td>
+        <td> Tổng </td>
+        <td>Chi tiết</td>
+      </tr>
+
+      {% for bill in bills %}
+      <tr>
+        <td>{{bill.id}}</td>
+        <td> {{current_user.full_name}}</td>
+        <td>{{bill.quantity}}</td>
+        <td> {{bill.total}}</td>
+        <td> <form action="{{url_for('viewBill_s2')}}" method="post">
+                <input type='number' name='product_id' value='{{bill.product_id}}' hidden>
+                <input type='number' name='id' value="{{bill.id}}" hidden>
+                <input class="btn btn-primary"type='submit' value='Chi tiết'>
+            </form>
+        </tr>
+      {% endfor %}
+
+{% endblock %}

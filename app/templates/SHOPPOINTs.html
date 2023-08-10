@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My shop
+{% endblock %}
+
+{% block body %}
+	<div id="mapid" style="width: 800px; height: 500px;"></div>
+	<script>
+    var mymap = L.map('mapid', {fullscreenControl: true,
+																fullscreenControlOptions: { // optional
+																	title:"Show me the fullscreen !",
+																	titleCancel:"Exit fullscreen mode"
+																}}).setView([21.07204051307818, 105.7739627412891], 20);
+		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		var osmAttrib='Map data &copy; OpenStreetMap contributors';
+		L.tileLayer(osmUrl, {attribution: osmAttrib}).addTo(mymap);
+
+
+		var osm2 = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13, attribution: osmAttrib });
+		var miniMap = new L.Control.MiniMap(osm2, { toggleDisplay: true }).addTo(mymap);
+
+		// use JQUERY/AJAX
+		$.ajax({
+			url: "http://127.0.0.1:5000/api/v1/SHOPPOINTs",
+			dataType: 'json',
+			async: false, // async default = true
+			success: function(data) {
+				geojson = data;
+				console.log(data);
+			}
+		});
+
+		var SHOP1 = L.icon({
+			iconUrl: 'http://127.0.0.1:5000/static/icon/market.png',
+			iconSize: [28, 35], // size of the icon
+			iconAnchor: [10, 15], // point of the icon which will correspond to marker's location
+			popupAnchor: [3, 15] // point from which the popup should open relative to the iconAnchor
+		});
+		var SHOP2 = L.icon({
+			iconUrl:  'http://127.0.0.1:5000/static/icon/market2.png',
+			iconSize: [28, 35], // size of the icon
+			iconAnchor: [10, 15], // point of the icon which will correspond to marker's location
+			popupAnchor: [3, 15] // point from which the popup should open relative to the iconAnchor
+		});
+
+		function onEachSHOP(feature, layer) {
+
+			if (feature.properties) {
+        layer.bindPopup("<b><img src=" + feature.properties.img + "width = 150px; height = 150px; '></b><br/>Address: " +
+  				feature.properties.address + "</br><b>Đại lý cấp: "+feature.properties.level+"</b><br/>Name: " + feature.properties.name);
+
+				layer.on('click', function(e) {
+					mymap.panTo(e.latlng, {
+						animate: true,
+						duration: 1
+					});
+				});
+			}
+		}
+    var shop_group = L.markerClusterGroup();//cụm điểm đánh dấu
+		var SHOPs = L.geoJSON(geojson, {
+			onEachFeature: onEachSHOP,
+			pointToLayer: function(feature, latlng) {
+				switch (feature.properties.level) {
+					case 1:
+						return L.marker(latlng, {
+							icon: SHOP1
+						});
+					case 2:
+						return L.marker(latlng, {
+							icon: SHOP2
+						});
+				}
+			}
+		}).addTo(shop_group);
+    shop_group.addTo(mymap);
+
+
+    var legend = L.control({position: 'bottomleft'});
+
+		legend.onAdd = function (mymap) {
+		    var div = L.DomUtil.create('div', 'info');
+		    div.innerHTML += '<img style="width:30px;height:30px" src="static/icon/market.png">: Đại lý cấp 1<br>';
+				div.innerHTML += '<img style="width:30px;height:30px" src="static/icon/market2.png">: Đại lý cấp 2<br>';
+				return div;
+		};
+
+		legend.addTo(mymap);
+
+    //toàn màn hình
+		mymap.on('enterFullscreen', function(){
+			if(window.console) window.console.log('enterFullscreen');
+		});
+		mymap.on('exitFullscreen', function(){
+			if(window.console) window.console.log('exitFullscreen');
+		});
+
+    //tìm kiếm
+    var shopPointLayers = L.layerGroup([
+      shop_group
+  	])
+
+    L.control.search({
+  		layer: shopPointLayers,
+  		initial: false, //True - only search on first text
+  		propertyName: 'name',
+      zoom: 16,
+  		buildTip: function(text, val) {
+  			var name = val.layer.feature.properties.name;
+  			return '<a href="#" class="'+name+'">'+text+'</a>';
+  		}
+  	}).addTo(mymap);
+
+    //định vị
+    locate = L.control.locate({
+        strings: {
+            title: "vị trí của tôi!"
+        }
+    }).addTo(mymap);
+	</script>
+{% endblock %}

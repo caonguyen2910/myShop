@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+
+{% block body %}
+    <h2> Sản phẩm</h2>
+    <form action="{{url_for('updateProduct_s4')}}" method="post">
+      <div class="form-group">
+        <lable for="product_id">ID sản phẩm </lable>
+        <input class="form-control" name="product_id" value='{{product.product_id}}' readonly>
+      </div>
+      <div class="form-group">
+        <lable for="product_name">Tên sản phẩm </lable>
+        <input class="form-control" name="product_name" value='{{product.product_name}}' type="text" >
+      </div>
+      <div class="form-group">
+        <lable for="img">Ảnh</lable>
+        <input class="form-control" name="img" value='{{product.img}}' type="text">
+      </div>
+      <div class="form-group">
+        <lable for="price">Giá</lable>
+        <input  class="form-control" name="price" value='{{product.price}}' type="number">
+      </div>
+      <div class="form-group">
+        <lable for="information">Thông tin sản phẩm</lable>
+        <input class="form-control" name="information" value='{{product.information}}' type="text">
+      </div>
+      <div class="form-group">
+        <lable for="type_id">Loại sản phẩm</lable>
+        <input class="form-control" name="type_id" value='{{product.type_id}}' type='number'>
+      </div>
+      <div class="form-group">
+        <input class="btn btn-primary" name="add" type="submit" value='Cập nhật'>
+      </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+
+{% block body %}
+    <h2> Chọn loại sản phẩm</h2>
+    {% for type in types %}
+    <li>
+        <a href="{{ url_for('deleteProduct_s2', type_id=type.id)}}">
+          {{type.type_name}}
+        </a>
+    </li>
+    {% endfor %}
+{% endblock %}

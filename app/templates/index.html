@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+  <h2> {{messages[0]}} </h2>
+{% endwith %}
+    <div  class="col-auto">
+      <div>
+        <form class="card" action="{{url_for('search')}}" method="post">
+            <div class="card-body row no-gutters align-items-center">
+                <div class="col">
+                    <input class="form-control form-control-lg " type="text" name="search" placeholder="Nhập từ khóa ...">
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">Tìm</button>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+    <div  class="container mt-3">
+      <h3 style="font-family: inherit; text-align:center; background-color: #bdbbba;"> Sản Phẩm </h3>
+      <div class="d-flex flex-sm-wrap bg-light"  >
+      {% for product in products %}
+        <div class="p-2" style='width:210px;'>
+          <img src='{{product.img}}' style='width:155px;height:130px;'>
+          <h6>{{product.product_name}}</h6><br>
+          <div style="color:red;">{{product.price}} VNĐ</div><br>
+          <form action="{{url_for('buyProduct_s1')}}" method='post'>
+            <input type='number' value="{{product.product_id}}" name="product_id" hidden>
+            <input type='number' value="{{product.price}}" name="price" hidden>
+            <input type='number' name="quantity" value = "1" style='width:58px'>
+            <input class="btn btn-primary" type="submit" value="Mua">
+          </form>
+            <a href="{{ url_for('veiwDetail', product_id=product.product_id)}}">chi tiết</a>
+        </div>
+      {% endfor %}
+      </div>
+      </div>
+
+
+
+{% endblock %}

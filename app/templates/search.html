@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+  <h2> {{messages[0]}} </h2>
+{% endwith %}
+    <div  class="col-auto">
+      <div>
+        <form class="card" action="{{url_for('search')}}" method="post">
+            <div class="card-body row no-gutters align-items-center">
+                <div class="col">
+                    <input class="form-control form-control-lg " type="text" name="search" placeholder="Nhập từ khóa ...">
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">Tìm</button>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+      <div class="container mt-3">
+        <div class="d-flex flex-sm-wrap bg-light"  >
+          {% for product in products %}
+            <div class="p-2" style='width:170px;'>
+              <img src='{{product.img}}' style='width:115px;height:110px;'>
+                <a href="{{ url_for('veiwDetail', product_id=product.product_id)}}"><h6>{{product.product_name}}</h6></a>
+                <div style="color:red;">{{product.price}} VNĐ</div><br>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+
+{% endblock %}

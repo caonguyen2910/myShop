@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+
+{% block body %}
+    <h2> Chọn Sản phẩm</h2>
+    {% for product in products %}
+    <li>
+        <a href="{{ url_for('updateProduct_s3', product_id=product.product_id)}}">
+          {{product.product_name}}
+        </a>
+    </li>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+
+{% block body %}
+    <h1> Bill </h1>
+
+    <table  class="table">
+      <tr>
+        <td> Mã hóa đơn</td>
+        <td> Full Name</td>
+        <td> Email </td>
+        <td> Phone </td>
+        <td> Address</td>
+        <td> Tên Hàng</td>
+        <td> Ảnh </td>
+        <td> số lượng </td>
+        <td> Giá </td>
+        <td> Tổng </td>
+      </tr>
+      <tr>
+        <td>{{bill.id}}</td>
+        <td> {{current_user.full_name}}</td>
+        <td> {{current_user.email}}</td>
+        <td> 0{{current_user.phone}}</td>
+        <td> {{current_user.address}}</td>
+        <td> {{product.product_name}}</td>
+        <td><img src="{{product.img}}"  style='width:135px;height:135spx;'></td>
+        <td>{{bill.quantity}}</td>
+        <td> {{product.price}}</td>
+        <td> {{bill.total}}</td>
+
+{% endblock %}

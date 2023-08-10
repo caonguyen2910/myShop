@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5">
+        <img src="{{product.img}}" style="width:300px;height:300px;margin-top:50px ">
+      </div>
+      <div class="col-md-5">
+        <h4 style="text-align:center; color:#3c50cf; font-size:30px; margin-top:20px">{{product.product_name}}</h4>
+        <span style="color:#ed1111; font-size:20px" > Giá: {{product.price}} VND</span>
+        <form action="{{url_for('buyProduct_s1')}}" method='post'>
+          <input type='number' value="{{product.product_id}}" name="product_id" hidden>
+          <input type='number' value="{{product.price}}" name="price" hidden>
+          <input type='number' name="quantity" value = "1" style='width:58px'>
+          <input class="btn btn-primary" type="submit" value="Mua">
+        </form>
+        <div><h6>Thông tin chi tiết: </h6><br>
+          <p>{{product.information}}</p>
+        </div>
+
+      </div>
+    </div>
+</div>
+{% endblock %}

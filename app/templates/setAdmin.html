@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My shop
+{% endblock %}
+
+{% block body %}
+    <h1> Select </h1>
+
+    <table  class="table">
+      <tr>
+        <td> User Name</td>
+        <td> Full Name</td>
+        <td> Email </td>
+        <td>is_admin</td>
+      </tr>
+
+      {% for user in users %}
+      <tr>
+        <td>
+              <a href="{{ url_for('setAdmin_s2', id=user.id)}}">
+                {{user.user_name}}
+              </a>
+        </td>
+        <td> {{user.full_name}}</td>
+        <td> {{user.email}}</td>
+        <td>{% if user.is_admin == 1 %}
+                Yes
+            {% else %}
+              No
+            {%endif%}
+          </td>
+        </tr>
+      {% endfor %}
+
+{% endblock %}
